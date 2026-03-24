@@ -6945,7 +6945,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1192402869}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bf083134f4d522d41bfe0f24e3ee27f6, type: 3}
   m_Name: 
@@ -6968,6 +6968,8 @@ MonoBehaviour:
   moveSpeed: 5
   rotateSpeed: 100
   stopDistance: 2
+  viewAngle: 45
+  viewDistance: 15
 --- !u!136 &1192402873
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -11102,6 +11104,10 @@ PrefabInstance:
     - target: {fileID: 194339873040173778, guid: 9aaee03efe49ed244833affba40e2e5d, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 194339873040173778, guid: 9aaee03efe49ed244833affba40e2e5d, type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 2732757582850887672, guid: 9aaee03efe49ed244833affba40e2e5d, type: 3}
       propertyPath: m_LocalScale.x
