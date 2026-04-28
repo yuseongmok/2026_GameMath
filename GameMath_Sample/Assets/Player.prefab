@@ -22,7 +22,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2732757582850887672
 Transform:
   m_ObjectHideFlags: 0
@@ -172,6 +172,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88a591b2343f65549ab6953388f68158, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
+  dashCooldownImage: {fileID: 0}
+  dashCooldownText: {fileID: 0}
   moveSpeed: 5
   mouseSensitivity: 2
   playerCamera: {fileID: 4718355729566427142}
