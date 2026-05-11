@@ -3,55 +3,65 @@ using UnityEngine.InputSystem;
 
 public class TargetingSystem : MonoBehaviour
 {
-    public Transform playerCamera; 
-    private Transform currentTarget; 
-    public LineRenderer aimLine; 
+    public Transform playerCamera;
+    public float rotationSpeed = 5f;
+    private Transform targetEnemy;
+    private bool isTargeting = false;
+
+    // 조준선
+    public RectTransform reticleUI;
+    private float reticleScale = 0f;
 
     public void OnRightClick(InputValue value)
     {
         if (!value.isPressed) return;
 
+        // 마우스 위치에서 레이 발사
         Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
-
+        
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
             if (hit.collider.CompareTag("Enemy"))
             {
-                // 타겟팅
-                currentTarget = hit.transform;
-                aimLine.enabled = true;
-                Debug.Log("맞음");
+                // 타겟팅 시작
+                targetEnemy = hit.transform;
+                isTargeting = true;
             }
             else
             {
-                // 초기화
+                // 빈 곳이나 다른 물체 클릭 시 해제
                 ResetTargeting();
-                Debug.Log("초기화");
             }
         }
-        Debug.DrawRay(ray.origin, ray.direction * 100, Color.red, 1.0f);
+        else
+        {
+            ResetTargeting();
+        }
     }
 
     void Update()
     {
-        // 타겟이 설정되어 있으면 카메라가 적을 바라보게 함
-        if (currentTarget != null)
+        if (isTargeting && targetEnemy != null)
         {
-            playerCamera.LookAt(currentTarget);
+            Vector3 direction = targetEnemy.position - playerCamera.position;
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            playerCamera.rotation = Quaternion.Slerp(playerCamera.rotation, targetRotation, Time.deltaTime * rotationSpeed);
 
-            // 조준선 업데이트 (카메라 위치 -> 적 위치)
-            aimLine.SetPosition(0, playerCamera.position);
-            aimLine.SetPosition(1, currentTarget.position);
+            //조준선 연출
+            reticleScale = Mathf.LerpUnclamped(reticleScale, 1.0f, Time.deltaTime * 10f);
         }
-        if (Input.GetMouseButtonDown(1)) // 전통적인 방식의 우클릭 체크
+        else
         {
-            Debug.Log("우클릭 감지됨");
+            reticleScale = Mathf.Lerp(reticleScale, 0f, Time.deltaTime * 10f);
         }
+
+        // 조준선 크기 적용
+        if(reticleUI != null) reticleUI.localScale = Vector3.one * reticleScale;
     }
 
     void ResetTargeting()
     {
-        currentTarget = null;
-        aimLine.enabled = false;
+        isTargeting = false;
+        targetEnemy = null;
     }
 }
